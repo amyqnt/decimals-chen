@@ -1,100 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unit 5: Decimal Addition Challenge</title>
-  <script src="https://cdn.tailwindcss.com"></script>
- <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Funnel Sans', sans-serif; }
-    #progress-pointer { transition: left 0.5s ease-out; transform: translateX(-50%); }
-
-    #end-screen {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(to bottom right, #e0f2fe, #bae6fd);
-      z-index: 50;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      text-align: center;
-    }
-    #end-screen img {
-      width: 220px;
-      animation: bounce 1.5s ease-in-out 3;
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-    .glow-btn {
-      transition: all 0.3s ease;
-    }
-    .glow-btn:hover {
-      box-shadow: 0 0 12px rgba(96, 165, 250, 0.8);
-      transform: scale(1.05);
-    }
-  </style>
-</head>
-<body class="bg-blue-50 flex items-center justify-center min-h-screen p-4">
-<main id="quiz-section" class="bg-white/90 backdrop-blur p-6 rounded-2xl shadow-2xl w-full max-w-2xl border border-blue-100">
-    <header class="text-center mb-4">
-      <h1 class="text-3xl md:text-4xl font-extrabold text-blue-700 tracking-tight">Lesson 1: Decimal Addition 💙</h1>
-      <p class="text-blue-500 mt-1">Can you add these decimals correctly?</p>
-    </header>
-
-    <div id="scoreboard-container" class="mb-4">
-      <div class="relative w-full mb-2">
-        <div class="h-3 rounded-full bg-gradient-to-r from-blue-200 via-blue-300 to-blue-400"></div>
-        <div id="progress-pointer" class="absolute -bottom-2.5 left-0">
-          <svg class="h-5 w-5 text-blue-500 drop-shadow" viewBox="0 0 10 10"><path d="M5 10L0 0L10 0Z" fill="currentColor"/></svg>
-        </div>
-      </div>
-      <div class="flex justify-between text-xs font-bold text-blue-600 px-1">
-        <span>Starter</span>
-        <span>Thinker</span>
-        <span class="text-blue-700 font-extrabold">Math Pro</span>
-      </div>
-    </div>
-
-    <div class="flex justify-center my-2 text-lg font-semibold text-blue-700">
-      <span class="mr-6">Streak: <span id="streak-el" class="font-bold text-blue-600">0</span></span>
-      <span>Correct: <span id="percentage-el" class="font-bold text-blue-600">0%</span></span>
-    </div>
-
-    <div id="game-content" class="text-center">
-      <h2 id="question" class="text-xl font-bold text-blue-800 mb-4">Loading question...</h2>
-      <div id="choices-container" class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3"></div>
-      <p id="feedback" class="text-center text-2xl font-semibold h-8 my-3"></p>
-      <button id="next-btn" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors">Next Question</button>
-    </div>
-  </main>
-
-<div id="end-screen" class="flex">
-  <h1 class="text-4xl md:text-5xl font-extrabold text-blue-700 mb-4">✨ Great Job! ✨</h1>
-  <img src="main.png" alt="Dancing Bear" class="rounded-lg mb-4" />
-  <p class="text-blue-600 mb-6 font-semibold">You finished all 10 questions!</p>
-
-  <div class="flex flex-col gap-3">
-    <button id="restart-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors">
-      Play Again
-    </button>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfvVF6yR1b2vLfWnTxrT7x4ee6VFRxCXlqN3c19zRwSMZ_JOA/viewform" 
-       target="_blank" 
-       class="bg-blue-300 hover:bg-blue-400 text-blue-900 font-bold py-2 px-6 rounded-lg shadow-md glow-btn transition-all inline-block">
-       📸 Submit Screenshot
-    </a>
-  </div>
-</div>
-
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   function generateDecimalQuestion() {
-    // Generate decimals between 0.01 and 0.99
     const num1 = (Math.random() * 0.99).toFixed(2);
     const num2 = (Math.random() * 0.99).toFixed(2);
     const correctAnswer = (parseFloat(num1) + parseFloat(num2)).toFixed(2);
@@ -126,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('end-screen').style.display = 'flex';
       return;
     }
+
     quizLocked = false;
     document.getElementById('feedback').textContent = '';
     document.getElementById('next-btn').disabled = true;
@@ -148,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (quizLocked) return;
     quizLocked = true;
     totalCount++;
+
     const fb = document.getElementById('feedback');
     const allBtns = document.querySelectorAll('#choices-container button');
     allBtns.forEach(b => {
@@ -160,18 +68,17 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-if (selected === correct) {
-  fb.textContent = 'Correct!';
-  fb.style.color = '#16a34a';
-  correctCount++;
-  streak++;
-  currentIndex++; 
-} else {
-  fb.textContent = `The correct answer is ${correct}.`;
-  fb.style.color = '#dc2626';
-  streak = 0;
-}
-
+    if (selected === correct) {
+      fb.textContent = 'Correct!';
+      fb.style.color = '#16a34a';
+      correctCount++;
+      streak++;
+      currentIndex++; 
+    } else {
+      fb.textContent = `The correct answer is ${correct}.`;
+      fb.style.color = '#dc2626';
+      streak = 0;
+      
     }
 
     updateScoreboard();
@@ -181,7 +88,10 @@ if (selected === correct) {
 
   document.getElementById('next-btn').addEventListener('click', newQuestion);
   document.getElementById('restart-btn').addEventListener('click', () => {
-    streak = 0; correctCount = 0; totalCount = 0; currentIndex = 0;
+    streak = 0; 
+    correctCount = 0; 
+    totalCount = 0; 
+    currentIndex = 0;
     updateScoreboard();
     document.getElementById('end-screen').style.display = 'none';
     document.getElementById('quiz-section').style.display = 'block';
@@ -192,5 +102,3 @@ if (selected === correct) {
   updateScoreboard();
 });
 </script>
-</body>
-</html>
